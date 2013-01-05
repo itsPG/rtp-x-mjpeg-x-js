@@ -12,7 +12,7 @@ module.exports = (function()
 		ip:0,
 		port:0,
 		buf:0,
-		packet_size:1024,
+		packet_size:10240,
 		receiver_event:0,
 		nexttimestamp_event:0,
 		sleep:function(ms)
@@ -76,6 +76,7 @@ module.exports = (function()
 			var SequenceNumber = target_packet.readUInt16BE(2);
 			var Timestamp = target_packet.readUInt32BE(4);
 			var payload = new Buffer(this.packet_size);
+			var ssrc = target_packet.readUInt32BE(8);
 			//console.log(target_packet.length+96);
 			target_packet.copy(payload, 0, 96, target_packet.length);
 
@@ -83,7 +84,7 @@ module.exports = (function()
 			//console.log("Timestamp", Timestamp);
 			//console.log("payload", payload);
 			//console.log(payload.toString("utf8", 0, target_packet.length - 96));
-			return Array(SequenceNumber, Timestamp, payload);
+			return Array(SequenceNumber, Timestamp, payload, ssrc);
 
 		},
 		init:function(ip_in, port_in)
