@@ -15,6 +15,7 @@ module.exports = (function()
 		packet_size:10240,
 		receiver_event:0,
 		nexttimestamp_event:0,
+		nexttimestamp_event_origin_caller:0,
 		sleep:function(ms)
 		{
 			var startTime = new Date().getTime();
@@ -110,7 +111,7 @@ module.exports = (function()
 				
 				if (tmp[1] != 0)
 				{
-					this.nexttimestamp_event(this.max_time);
+					this.nexttimestamp_event(this.max_time, this.nexttimestamp_event_origin_caller);
 					//console.log("nexttime", this.max_time);
 				}
 				this.max_time = tmp[1];
@@ -206,10 +207,11 @@ module.exports = (function()
 		{
 			this.RTP.close();
 		},
-		bind:function(port_in, event_in)
+		bind:function(port_in, event_in, origin_in)
 		{
 			var ori = this;
 			this.nexttimestamp_event = event_in;
+			this.nexttimestamp_event_origin_caller = origin_in;
 			this.RTP.on("message", function (msg, rinfo)
 			{
 				//console.log("server got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
