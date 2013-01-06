@@ -3,6 +3,7 @@ var StreamServer = function()
 	var r =
 	{
 		RtpPacket:0,
+		RtspPacket:0,
 		PG_mjpeg:0,
 		frame_pointer:0,
 		max_frame:0,
