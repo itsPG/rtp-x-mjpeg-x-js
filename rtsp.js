@@ -10,7 +10,6 @@ module.exports = (function()
 		c:0,
 		state:0, // 1:steup 2:play 3:pause
 		session:0,
-		event_function:0,
 
 		server_setup:function(data)
 		{
@@ -101,14 +100,9 @@ module.exports = (function()
 			return msg;
 		},
 
-		server_mode:function(event_function_in, origin_caller)
+		server_mode:function(origin_caller)
 		{
 			var t;
-			if (event_function_in != undefined)
-			{
-				this.event_function = event_function_in;
-			}
-			else this.event_function = function(){};
 			var ori_this = this;
 			var server = net.createServer(function(c)
 			{
@@ -137,7 +131,6 @@ module.exports = (function()
 						ori_this.state = 1;
 						origin_caller.state = 1;
 						ori_this.server_setup(data);
-						ori_this.event_function("SETUP");
 						
 						console.log(String("[setup]").cyan);
 
@@ -147,7 +140,6 @@ module.exports = (function()
 						ori_this.state = 2;
 						origin_caller.state = 2;
 						ori_this.server_play(data);
-						ori_this.event_function("PLAY");
 						
 						console.log(String("[play]").green);
 					}
@@ -156,7 +148,7 @@ module.exports = (function()
 						ori_this.state = 3;
 						origin_caller.state = 3;
 						ori_this.server_pause(data);
-						ori_this.event_function("PAUSE");
+
 						console.log(String("[pause]").yellow);
 					}
 					else if (ori_this.state == 3 && data.search(/PLAY/i) != -1)
@@ -164,7 +156,7 @@ module.exports = (function()
 						ori_this.state = 2;
 						origin_caller.state = 2;
 						ori_this.server_play(data);
-						ori_this.event_function("PLAY");
+
 						console.log(String("[play]").green);
 					}
 					else

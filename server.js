@@ -22,7 +22,7 @@ var StreamServer = function()
 			this.PG_mjpeg = require("./mjpeg.js");
 			if (this.first_init)
 			{	
-				this.RtspPacket.server_mode(this.state_changer, this);
+				this.RtspPacket.server_mode(this);
 				this.RtpPacket.init(ip_in, port_in);
 				this.first_init = false;
 			}
@@ -57,30 +57,6 @@ var StreamServer = function()
 		call_test:function()
 		{
 			console.log("OK");
-		},
-		state_changer:function(state_in)
-		{
-			return;
-			var ori_this = this;
-			console.log("state_changer", state_in);
-			if (state_in == "PLAY")
-			{
-
-				this.state = 2;
-				console.log(this.state, state_in);
-				this.call_test();
-			}
-			if (state_in == "PAUSE")
-			{
-				ori_this.state = 3;
-			}
-			if (state_in == "TEARDOWN")
-			{
-				//this.state = -1;
-				this.send(Buffer(1), 999999999);
-				t.init("127.0.0.1", 3535, "PG.mjpeg");
-			}
-
 		},
 		main_loop:function()
 		{
