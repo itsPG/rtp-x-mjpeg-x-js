@@ -101,7 +101,7 @@ module.exports = (function()
 			return msg;
 		},
 
-		server_mode:function(event_function_in)
+		server_mode:function(event_function_in, origin_caller)
 		{
 			var t;
 			if (event_function_in != undefined)
@@ -129,29 +129,43 @@ module.exports = (function()
 					if (data.search(/TEARDOWN/i) != -1)
 					{
 						ori_this.event_function("TEARDOWN");
+						origin_caller.state = -1;
 						//c.close();
 					}
 					else if (ori_this.state == 0 && data.search(/SETUP/i) != -1)
 					{
 						ori_this.state = 1;
+						origin_caller.state = 1;
 						ori_this.server_setup(data);
 						ori_this.event_function("SETUP");
+						
 						console.log(String("[setup]").cyan);
 
 					}
 					else if (ori_this.state == 1 && data.search(/PLAY/i) != -1)
 					{
 						ori_this.state = 2;
+						origin_caller.state = 2;
 						ori_this.server_play(data);
 						ori_this.event_function("PLAY");
+						
 						console.log(String("[play]").green);
 					}
 					else if (ori_this.state == 2 && data.search(/PAUSE/i) != -1)
 					{
-						ori_this.state = 1;
+						ori_this.state = 3;
+						origin_caller.state = 3;
 						ori_this.server_pause(data);
 						ori_this.event_function("PAUSE");
 						console.log(String("[pause]").yellow);
+					}
+					else if (ori_this.state == 3 && data.search(/PLAY/i) != -1)
+					{
+						ori_this.state = 2;
+						origin_caller.state = 2;
+						ori_this.server_play(data);
+						ori_this.event_function("PLAY");
+						console.log(String("[play]").green);
 					}
 					else
 					{
