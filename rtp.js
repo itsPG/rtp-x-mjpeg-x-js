@@ -111,7 +111,11 @@ module.exports = (function()
 				
 				if (tmp[1] != 0)
 				{
+<<<<<<< HEAD
 					this.nexttimestamp_event(this.max_time, this.nexttimestamp_event_origin_caller);
+=======
+					if (this.nexttimestamp_event) this.nexttimestamp_event(this.max_time, this.nexttimestamp_event_origin_caller);
+>>>>>>> origin/dev
 					//console.log("nexttime", this.max_time);
 				}
 				this.max_time = tmp[1];
@@ -129,6 +133,7 @@ module.exports = (function()
 		},
 		send:function(buffer_in, timestamp_in)
 		{
+			//console.log(this.ip);
 			for (var i = 0; i < buffer_in.length; i += this.packet_size)
 			{
 				if (timestamp_in == undefined)
@@ -147,7 +152,7 @@ module.exports = (function()
 				var chk = this.extract_rtp_packet(s);
 				//console.log("chk time stamp", chk[0], chk[1]);
 				this.RTP.send(s, 0, s.length, this.port, this.ip);
-				this.sleep(3);
+				this.sleep(1);
 			}
 		},
 		recv:function()
@@ -199,7 +204,7 @@ module.exports = (function()
 				return false;
 			}
 			r = r.slice(0, pointer);
-			console.log("recv_target_timestamp", r.toString("utf8", 0, 50), pointer);
+			console.log("recv_target_timestamp", r.toString("utf8", 0, 30), pointer);
 			this.buf = new_ary;
 			return r;
 		},

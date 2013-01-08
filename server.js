@@ -10,6 +10,10 @@ var StreamServer = function()
 		state:0,
 		first_init:true,
 		self:0,
+<<<<<<< HEAD
+=======
+		set_IP_flag:0,
+>>>>>>> origin/dev
 		sleep:function(ms)
 		{
 			var startTime = new Date().getTime();
@@ -22,12 +26,24 @@ var StreamServer = function()
 			this.PG_mjpeg = require("./mjpeg.js");
 			if (this.first_init)
 			{	
+<<<<<<< HEAD
 				this.RtspPacket.server_mode(this);
 				this.RtpPacket.init(ip_in, port_in);
 				this.first_init = false;
 			}
 			this.max_frame = this.PG_mjpeg.load(movie_name);
 			this.state = 0;
+=======
+				console.log("first_init");
+				this.RtspPacket.server_mode(this);
+				//this.RtpPacket.init(ip_in, port_in);
+				this.max_frame = this.PG_mjpeg.load(movie_name);
+				this.first_init = false;
+
+			}
+			this.state = 0;
+			this.frame_pointer = 0;
+>>>>>>> origin/dev
 			this.self = this;
 			console.log(this.max_frame);
 		},
@@ -61,7 +77,22 @@ var StreamServer = function()
 		main_loop:function()
 		{
 			var ori_this = this;
+<<<<<<< HEAD
 			console.log("[loop] #", this.state);
+=======
+			//console.log("[loop] #", this.state);
+			if (this.state == 1)
+			{
+				if (!this.set_IP_flag)
+				{
+					var IP = this.RtspPacket.IP;
+					console.log("[setup] IP", IP);
+					this.RtpPacket.init(IP, 3535);
+					this.set_IP_flag = true;
+				}
+				
+			}
+>>>>>>> origin/dev
 			if (this.state == 2)
 			{
 				if (this.frame_pointer < this.max_frame)
@@ -72,6 +103,7 @@ var StreamServer = function()
 				}
 				else if (this.frame_pointer == this.max_frame)
 				{
+<<<<<<< HEAD
 					console.log("[END]");
 					this.send(Buffer(1), 999999999);
 					this.state = 0;
@@ -79,6 +111,25 @@ var StreamServer = function()
 			}
 			//if (this.state != -1) 
 			setTimeout(function(){ ori_this.main_loop() }, 100);
+=======
+					this.sleep(1000);
+					console.log("[END]");
+					this.send(Buffer(4), 999999999);
+					this.state = 0;
+					
+					this.init();
+				}
+			}
+			if (this.state == -1)
+			{
+				this.state = 0;
+				this.set_IP_flag = 0;
+				this.RtspPacket.state = 0;
+				this.init();
+			}
+			//if (this.state != -1) 
+			setTimeout(function(){ ori_this.main_loop() }, 10);
+>>>>>>> origin/dev
 		}
 
 	};

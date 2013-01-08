@@ -1,0 +1,25 @@
+.main_fix
+		{
+
+			font-size:1.6em;
+			line-height:1.7em;
+			
+		}
+		.PG_fix
+		{
+
+			font-size:1.5em;
+			line-height:1.5em;
+			
+		}
+		.li_fix li
+		{
+			font-size:1.5em;
+			line-height:2em;
+		}
+		.PG_table_fix
+		{
+			font-size:1.5em;
+			line-height:1.5em;
+			width: 70%;
+		}
