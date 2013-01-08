@@ -1,4 +1,5 @@
 var dgram = require('dgram');
+var sleep = require("sleep");
 require('colors');
 module.exports = (function()
 {
@@ -136,19 +137,18 @@ module.exports = (function()
 				var chk = this.extract_rtp_packet(s);
 
 				this.RTP.send(s, 0, s.length, this.port, this.ip);
-				this.sleep(1);
 			}
 		},
 		recv:function()
 		{
-			var r = new Buffer(1024*1024*10);
+			var r = new Buffer(1024*1024);
 			var pointer = 0;
 			for (var i = 0; i < this.buf.length; i++)
 			{
 				this.buf[i][2].copy(r, pointer, 0, this.buf[i][2].length);
 				pointer += this.buf[i][2].length;
 			}
-			console.log("recv", r.toString("utf8", 0, 50).blue);
+			//console.log("recv", r.toString("utf8", 0, 50).blue);
 			this.buf = [];
 			return r;
 		},
@@ -159,7 +159,7 @@ module.exports = (function()
 		},
 		recv_target_timestamp:function(target_timestamp)
 		{
-			var r = new Buffer(1024*1024*10);
+			var r = new Buffer(1024*1024);
 			var pointer = 0;
 			var new_ary = [];
 			for (var i = 0; i < this.buf.length; i++)
@@ -182,7 +182,7 @@ module.exports = (function()
 				return false;
 			}
 			r = r.slice(0, pointer);
-			console.log("recv_target_timestamp", r.toString("utf8", 0, 30), pointer);
+			//console.log("recv_target_timestamp", r.toString("utf8", 0, 30), pointer);
 			this.buf = new_ary;
 			return r;
 		},

@@ -41,12 +41,12 @@ var StreamServer = function()
 		},
 		send_target_frame:function(frame_no)
 		{
-			console.log("send frame_no size", this.PG_mjpeg.file_size_raw[frame_no]);
+			//console.log("send frame_no size", this.PG_mjpeg.file_size_raw[frame_no]);
 			this.RtpPacket.send(this.PG_mjpeg.file_size_raw[frame_no], frame_no*2);
-			this.sleep(100);
-			console.log("start to send frame");
+			this.sleep(30);
+			//console.log("start to send frame");
 			this.RtpPacket.send(this.PG_mjpeg.file_content[frame_no], frame_no*2 + 1);
-			this.sleep(100);
+			this.sleep(30);
 
 		},
 
