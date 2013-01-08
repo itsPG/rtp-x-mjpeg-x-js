@@ -1,3 +1,72 @@
+require("colors");
+var fs = require("fs");
+var StreamPlayer = function(window_in)
+{
+
+  var r = 
+  {
+    
+    RtpPacket:0,
+    RtspPacket:0,
+    init:function()
+    {
+      this.RtpPacket = require("./rtp.js");
+      this.RtspPacket = require("./rtsp.js");
+
+      this.RtpPacket.init("127.0.0.1", 3535);
+      this.RtpPacket.bind(3535, this.ev, this);
+
+      this.RtspPacket.client_mode();
+    },
+
+    ev:function(target_frame, origin_caller)
+    {
+      //console.log("event is called", target_frame);
+      var r = origin_caller.RtpPacket.recv_target_timestamp(target_frame);
+      //console.log(r.length);
+      if (target_frame % 2 == 1)
+      {
+        //console.log(W);
+        console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
+        fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+        fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+        //this.window_in.$("body").html("asdf");
+        //this.RtpPacket.sleep(100);
+        W.$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame-1)/2 + ".jpg");
+      }
+    },
+
+    setup:function()
+    {
+      
+      this.RtspPacket.client_send( this.RtspPacket.client_setup());
+    },
+
+    play:function()
+    {
+      this.RtspPacket.client_send( this.RtspPacket.client_play());
+    },
+
+    pause:function()
+    {
+      this.RtspPacket.client_send( this.RtspPacket.client_pause());
+    },
+
+    teardown:function()
+    {
+      this.RtspPacket.client_send( this.RtspPacket.client_teardown());
+    },
+
+
+  }
+
+
+  return r;
+}
+
+
+
+
 var app = module.exports = require('appjs');
 
 app.serveFilesFrom(__dirname + '/content');
@@ -8,7 +77,7 @@ var window = app.createWindow({
   title  : 'awawdawd',
   icons  : __dirname + '/content/icons'
 });
-
+var W = window;
 window.on('create', function(){
   console.log("Window Created");
   window.frame.show();
@@ -25,7 +94,13 @@ window.on('ready', function(){
       window.frame.openDevTools();
     }
   });
-  window.PG = require("./player.js");
+
+  console.log(StreamPlayer);
+  Rixia = StreamPlayer(window);
+
+  Rixia.init();
+  setTimeout(function(){ Rixia.setup() }, 1000);
+  setTimeout(function(){ Rixia.play() }, 2000);
 });
 
 window.on('close', function(){
