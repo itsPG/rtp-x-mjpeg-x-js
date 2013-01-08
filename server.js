@@ -22,11 +22,13 @@ var StreamServer = function()
 			this.PG_mjpeg = require("./mjpeg.js");
 			if (this.first_init)
 			{	
+				console.log("first_init");
 				this.RtspPacket.server_mode(this);
 				this.RtpPacket.init(ip_in, port_in);
+				this.max_frame = this.PG_mjpeg.load(movie_name);
 				this.first_init = false;
+
 			}
-			this.max_frame = this.PG_mjpeg.load(movie_name);
 			this.state = 0;
 			this.self = this;
 			console.log(this.max_frame);
@@ -75,10 +77,17 @@ var StreamServer = function()
 					console.log("[END]");
 					this.send(Buffer(1), 999999999);
 					this.state = 0;
+					this.init();
 				}
 			}
+			if (this.state == -1)
+			{
+				this.state = 0;
+				this.RtspPacket.state = 0;
+				this.init();
+			}
 			//if (this.state != -1) 
-			setTimeout(function(){ ori_this.main_loop() }, 100);
+			setTimeout(function(){ ori_this.main_loop() }, 500);
 		}
 
 	};

@@ -57,8 +57,8 @@ var StreamPlayer = function()
 	return r;
 }
 
-var t = StreamPlayer();
-t.init();
-//t.setup();
-setTimeout(function(){ t.setup() }, 1000);
-setTimeout(function(){ t.play() }, 2000);
+// var t = StreamPlayer();
+// t.init();
+// //t.setup();
+// setTimeout(function(){ t.setup() }, 1000);
+// setTimeout(function(){ t.play() }, 2000);
