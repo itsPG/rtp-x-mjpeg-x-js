@@ -30,6 +30,7 @@ var StreamServer = function()
 
 			}
 			this.state = 0;
+			this.frame_pointer = 0;
 			this.self = this;
 			console.log(this.max_frame);
 		},
@@ -74,9 +75,11 @@ var StreamServer = function()
 				}
 				else if (this.frame_pointer == this.max_frame)
 				{
+					this.sleep(1000);
 					console.log("[END]");
-					this.send(Buffer(1), 999999999);
+					this.send(Buffer(4), 999999999);
 					this.state = 0;
+					
 					this.init();
 				}
 			}

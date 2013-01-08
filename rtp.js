@@ -199,7 +199,7 @@ module.exports = (function()
 				return false;
 			}
 			r = r.slice(0, pointer);
-			console.log("recv_target_timestamp", r.toString("utf8", 0, 50), pointer);
+			console.log("recv_target_timestamp", r.toString("utf8", 0, 30), pointer);
 			this.buf = new_ary;
 			return r;
 		},

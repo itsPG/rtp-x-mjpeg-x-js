@@ -29,7 +29,9 @@ addEventListener('app-ready', function(e)
 				if (target_frame % 2 == 1)
 				{
 					console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
-					fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+					fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+					$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame-1)/2 + ".jpg");
+					console.log($("#RtpPlayer"));
 				}
 			},
 
@@ -64,8 +66,13 @@ addEventListener('app-ready', function(e)
 	$(".btn").click(function(){
 		//alert($(this).attr("act"));
 		cmd = "Rixia." + $(this).attr("act") + "()";
-		alert(cmd);
-		eval(cmd);
+		//alert(cmd);
+		if ($(this).attr("act") == "player")
+		{
+			var tmp = require("./player.js");
+		}
+
+		else eval(cmd);
 	});
     window.dispatchEvent(new Event('app-done'));
 });

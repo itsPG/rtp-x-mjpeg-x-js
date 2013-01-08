@@ -20,19 +20,29 @@ module.exports = (function()
 			for (var i = 0; i < this.total_len; i++)
 			{
 				fs.readSync(fd, tmp_buf, 0, 4);
+
 				var tmp_size = tmp_buf.readUInt32BE(0);
-				this.file_size_raw.push(tmp_buf);
-				this.file_size.push(tmp_size);
 				var buf = new Buffer(tmp_size);
 				fs.readSync(fd, buf, 0, buf.length);
+
+				this.file_size_raw.push(tmp_buf);
+				this.file_size.push(tmp_size);
 				this.file_content.push(buf);
+
+				if (i == this.total_len - 1)
+				{
+					this.file_size_raw.push(tmp_buf);
+					this.file_size.push(tmp_size);
+					this.file_content.push(buf);
+				}
+
 				if (write_flag)
 				{
 					var fn = "tmp_" + (i + 1);
 					fs.writeFileSync(fn, buf);
 				}
 			}
-			return this.total_len;
+			return this.total_len + 1;
 
 		},
 		save:function(file_name)
