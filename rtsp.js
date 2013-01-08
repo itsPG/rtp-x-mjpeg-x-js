@@ -14,7 +14,6 @@ module.exports = (function()
 
 		server_setup:function(data)
 		{
-			//data = data.toString();
 			var msg = "";
 			var c_seq = data.match(/CSeq: ([0-9]+)/)[1];
 			this.session = Math.round(Math.random()*100000)
@@ -185,36 +184,31 @@ module.exports = (function()
 			else this.IP = "localhost";
 			this.client = net.connect({port:3536, host:this.IP}, function()
 			{
-
 				console.log("client connected");
-				//this.write("client hello");
-
 			});
 
 			this.client.on("data", function(data)
 			{
 				console.log(data.toString());
-				//client.end();
-
-
 			});
 			this.client.on("end", function()
 			{
 				console.log("client disconnected");
-
 			});
 
 
 		},
+
 		client_send:function(data)
 		{
-			//console.log("client send", data);
 			this.client.write(data);
 		},
+
 		server_send:function(data)
 		{
 			this.c.write(data);
 		},
+
 		client_close:function()
 		{
 			this.client.end();
