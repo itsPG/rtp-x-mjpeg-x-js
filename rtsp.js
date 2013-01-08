@@ -122,8 +122,9 @@ module.exports = (function()
 					//console.log(ori_this.state, data.search(/SETUP/i));
 					if (data.search(/TEARDOWN/i) != -1)
 					{
-						ori_this.event_function("TEARDOWN");
+						
 						origin_caller.state = -1;
+						console.log(String("[end ]").red);
 						//c.close();
 					}
 					else if (ori_this.state == 0 && data.search(/SETUP/i) != -1)
