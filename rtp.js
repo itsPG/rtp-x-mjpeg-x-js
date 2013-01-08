@@ -136,7 +136,7 @@ module.exports = (function()
 				var s = this.make_rtp_packet(++this.seq, timestamp_in, this.SSRC, tmp);
 				var chk = this.extract_rtp_packet(s);
 
-				this.RTP.send(s, 0, s.length, this.port, this.ip);
+				this.RTP.send(s, 0, s.length, this.port, this.ip);r
 			}
 		},
 		recv:function()
@@ -172,7 +172,8 @@ module.exports = (function()
 				}
 				else
 				{
-					if (this.buf[i][1] > target_timestamp) new_ary.push(this.buf[i]);
+					//if (this.buf[i][1] > target_timestamp) 
+						new_ary.push(this.buf[i]);
 					/* enable this if command to discard old frame*/
 				}
 			}
