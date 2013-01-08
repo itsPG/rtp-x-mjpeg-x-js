@@ -1,4 +1,5 @@
 var dgram = require('dgram');
+require('colors');
 module.exports = (function()
 {
 	var r = 
@@ -78,13 +79,9 @@ module.exports = (function()
 			var Timestamp = target_packet.readUInt32BE(4);
 			var payload = new Buffer(this.packet_size);
 			var ssrc = target_packet.readUInt32BE(8);
-			//console.log(target_packet.length+96);
+
 			target_packet.copy(payload, 0, 96, target_packet.length);
 
-			//console.log("SequenceNumber", SequenceNumber);
-			//console.log("Timestamp", Timestamp);
-			//console.log("payload", payload);
-			//console.log(payload.toString("utf8", 0, target_packet.length - 96));
 			return Array(SequenceNumber, Timestamp, payload, ssrc);
 
 		},
@@ -102,7 +99,6 @@ module.exports = (function()
 		receiver:function(buffer_in)
 		{
 			
-			//console.log("receiver #1", buffer_in, buffer_in.length);
 			var tmp = this.extract_rtp_packet(buffer_in);
 			this.buf.push(tmp);
 			if (tmp[0] > this.max_seq) this.max_seq = tmp[0];
@@ -112,24 +108,16 @@ module.exports = (function()
 				if (tmp[1] != 0)
 				{
 					if (this.nexttimestamp_event) this.nexttimestamp_event(this.max_time, this.nexttimestamp_event_origin_caller);
-					//console.log("nexttime", this.max_time);
 				}
 				this.max_time = tmp[1];
 				
 			}
-			//console.log("revceiver", this.buf[this.buf.length - 1]);
-			//console.log("receiver size:", this.buf.length);
-			//if (this.buf.length >= 5) this.recv();
-			//console.log(this.recv_once());
-			//if (this.seq > 3) this.recv_target_timestamp(1);
-
-			//console.log("recv #", this.max_seq, "buf size:", this.buf.length, "max time:", this.max_time);
 			if (this.max_seq % 100 == 0) console.log("recv #", this.max_seq);
-			//this.receiver_event();
+
 		},
 		send:function(buffer_in, timestamp_in)
 		{
-			//console.log(this.ip);
+
 			for (var i = 0; i < buffer_in.length; i += this.packet_size)
 			{
 				if (timestamp_in == undefined)
@@ -146,7 +134,7 @@ module.exports = (function()
 
 				var s = this.make_rtp_packet(++this.seq, timestamp_in, this.SSRC, tmp);
 				var chk = this.extract_rtp_packet(s);
-				//console.log("chk time stamp", chk[0], chk[1]);
+
 				this.RTP.send(s, 0, s.length, this.port, this.ip);
 				this.sleep(1);
 			}
@@ -157,16 +145,10 @@ module.exports = (function()
 			var pointer = 0;
 			for (var i = 0; i < this.buf.length; i++)
 			{
-				//var tmp = Buffer(1000);
-				//tmp.fill(0, 0, tmp.length);
 				this.buf[i][2].copy(r, pointer, 0, this.buf[i][2].length);
-				//this.buf[i][2].copy(tmp, pointer, 0, this.buf[i][2].length);
-				//console.log(tmp.toString("utf8", 0, 50));
 				pointer += this.buf[i][2].length;
 			}
-			console.log("-----");
-			console.log("recv", r.toString("utf8", 0, 50));
-			console.log("-----");
+			console.log("recv", r.toString("utf8", 0, 50).blue);
 			this.buf = [];
 			return r;
 		},
@@ -177,7 +159,6 @@ module.exports = (function()
 		},
 		recv_target_timestamp:function(target_timestamp)
 		{
-			//console.log("recv_target_timestamp");
 			var r = new Buffer(1024*1024*10);
 			var pointer = 0;
 			var new_ary = [];
@@ -216,7 +197,6 @@ module.exports = (function()
 			this.RTP.on("message", function (msg, rinfo)
 			{
 				//console.log("server got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
-
 				ori.receiver(msg);
 			});
 			RTP2 = this.RTP;
@@ -232,20 +212,3 @@ module.exports = (function()
 	}
 	return r;
 })();
-
-
-//a.send(Buffer("123456789abcde"));
-//a.close();
-
-/*
-var dgram = require('dgram');
-var message = new Buffer("Some bytes");
-var client = dgram.createSocket("udp4");
-var tmp = new Buffer("asdfasdfasdfasdf");
-client.send(tmp, 0, tmp.length, 3535, "localhost")
-client.send(message, 0, message.length, 3535, "localhost", function(err, bytes) {
-	console.log(err, bytes);
-	client.send(message, 0, message.length, 43535, "localhost" )
-  client.close();
-});
-*/
