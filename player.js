@@ -8,7 +8,6 @@ var StreamPlayer = function(window_in)
 {
 	var r = 
 	{
-		
 		RtpPacket:0,
 		RtspPacket:0,
 
@@ -27,15 +26,11 @@ var StreamPlayer = function(window_in)
 		{
 			//console.log("event is called", target_frame);
 			var r = origin_caller.RtpPacket.recv_target_timestamp(target_frame);
-			//console.log(r.length);
+
 			if (target_frame % 2 == 1)
 			{
 				console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
-				fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
-<<<<<<< HEAD
-=======
 				fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
->>>>>>> origin/dev
 			}
 		},
 
