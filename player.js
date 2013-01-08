@@ -60,16 +60,9 @@ var StreamPlayer = function(window_in)
 	return r;
 }
 
-<<<<<<< HEAD
-var t = StreamPlayer();
-t.init();
-//t.setup();
-setTimeout(function(){ t.setup() }, 1000);
-setTimeout(function(){ t.play() }, 2000);
-=======
  //var t = StreamPlayer();
 //t.init();
 // //t.setup();
  //setTimeout(function(){ t.setup() }, 1000);
  //setTimeout(function(){ t.play() }, 2000);
->>>>>>> origin/dev
+
