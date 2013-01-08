@@ -30,7 +30,7 @@ var StreamPlayer = function(window_in)
         //console.log(W);
         this.buffer_lv = 0;
         console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
-        fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+        //fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
         fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
         //this.window_in.$("body").html("asdf");
         //this.RtpPacket.sleep(100);
