@@ -10,10 +10,8 @@ var StreamServer = function()
 		state:0,
 		first_init:true,
 		self:0,
-<<<<<<< HEAD
-=======
 		set_IP_flag:0,
->>>>>>> origin/dev
+
 		sleep:function(ms)
 		{
 			var startTime = new Date().getTime();

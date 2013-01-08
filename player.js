@@ -1,10 +1,7 @@
 require("colors");
 var fs = require("fs");
-<<<<<<< HEAD
+
 var StreamPlayer = function()
-=======
-var StreamPlayer = function(window_in)
->>>>>>> origin/dev
 {
 	var r = 
 	{

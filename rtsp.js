@@ -10,10 +10,8 @@ module.exports = (function()
 		c:0,
 		state:0, // 1:steup 2:play 3:pause
 		session:0,
-<<<<<<< HEAD
-=======
 		IP:0,
->>>>>>> origin/dev
+
 
 		server_setup:function(data)
 		{
@@ -127,14 +125,8 @@ module.exports = (function()
 					//console.log(ori_this.state, data.search(/SETUP/i));
 					if (data.search(/TEARDOWN/i) != -1)
 					{
-<<<<<<< HEAD
-						ori_this.event_function("TEARDOWN");
-						origin_caller.state = -1;
-=======
-						
 						origin_caller.state = -1;
 						console.log(String("[end ]").red);
->>>>>>> origin/dev
 						//c.close();
 					}
 					else if (ori_this.state == 0 && data.search(/SETUP/i) != -1)
