@@ -28,6 +28,15 @@ var StreamPlayer = function()
 			{
 				console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
 				fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+				if (window)
+				{
+					console.log("event");
+					//window.dispatchEvent(new Event('PG'));
+				}
+				else
+				{
+					console.log("window undefined");
+				}
 			}
 		},
 

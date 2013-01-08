@@ -25,6 +25,7 @@ window.on('ready', function(){
       window.frame.openDevTools();
     }
   });
+  window.PG = require("./player.js");
 });
 
 window.on('close', function(){
