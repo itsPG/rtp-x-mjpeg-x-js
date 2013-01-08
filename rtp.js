@@ -14,7 +14,7 @@ module.exports = (function()
 		ip:0,
 		port:0,
 		buf:0,
-		packet_size:10240,
+		packet_size:20480,
 		receiver_event:0,
 		nexttimestamp_event:0,
 		nexttimestamp_event_origin_caller:0,

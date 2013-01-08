@@ -29,7 +29,7 @@ var StreamPlayer = function(window_in)
       if (target_frame % 2 == 1)
       {
         //console.log(W);
-        this.buffer_lv = 3;
+        this.buffer_lv = 5;
         console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
         //fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
         fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
