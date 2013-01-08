@@ -1,6 +1,6 @@
 require("colors");
 var fs = require("fs");
-var StreamPlayer = function()
+var StreamPlayer = function(window_in)
 {
 	var r = 
 	{
@@ -28,6 +28,7 @@ var StreamPlayer = function()
 			{
 				console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
 				fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+				fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
 			}
 		},
 
@@ -57,8 +58,8 @@ var StreamPlayer = function()
 	return r;
 }
 
- var t = StreamPlayer();
-t.init();
+ //var t = StreamPlayer();
+//t.init();
 // //t.setup();
- setTimeout(function(){ t.setup() }, 1000);
- setTimeout(function(){ t.play() }, 2000);
+ //setTimeout(function(){ t.setup() }, 1000);
+ //setTimeout(function(){ t.play() }, 2000);
