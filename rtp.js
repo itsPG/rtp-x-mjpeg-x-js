@@ -147,7 +147,7 @@ module.exports = (function()
 				var chk = this.extract_rtp_packet(s);
 				//console.log("chk time stamp", chk[0], chk[1]);
 				this.RTP.send(s, 0, s.length, this.port, this.ip);
-				this.sleep(3);
+				this.sleep(1);
 			}
 		},
 		recv:function()

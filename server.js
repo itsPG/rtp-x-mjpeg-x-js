@@ -64,7 +64,7 @@ var StreamServer = function()
 		main_loop:function()
 		{
 			var ori_this = this;
-			console.log("[loop] #", this.state);
+			//console.log("[loop] #", this.state);
 			if (this.state == 2)
 			{
 				if (this.frame_pointer < this.max_frame)
@@ -90,7 +90,7 @@ var StreamServer = function()
 				this.init();
 			}
 			//if (this.state != -1) 
-			setTimeout(function(){ ori_this.main_loop() }, 500);
+			setTimeout(function(){ ori_this.main_loop() }, 10);
 		}
 
 	};
