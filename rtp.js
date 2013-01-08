@@ -191,7 +191,8 @@ module.exports = (function()
 				}
 				else
 				{
-					new_ary.push(this.buf[i]);
+					if (this.buf[i][1] > target_timestamp) new_ary.push(this.buf[i]);
+					/* enable this if command to discard old frame*/
 				}
 			}
 			if (pointer == 0)
