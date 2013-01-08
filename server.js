@@ -10,6 +10,7 @@ var StreamServer = function()
 		state:0,
 		first_init:true,
 		self:0,
+		set_IP_flag:0,
 		sleep:function(ms)
 		{
 			var startTime = new Date().getTime();
@@ -24,7 +25,7 @@ var StreamServer = function()
 			{	
 				console.log("first_init");
 				this.RtspPacket.server_mode(this);
-				this.RtpPacket.init(ip_in, port_in);
+				//this.RtpPacket.init(ip_in, port_in);
 				this.max_frame = this.PG_mjpeg.load(movie_name);
 				this.first_init = false;
 
@@ -65,6 +66,17 @@ var StreamServer = function()
 		{
 			var ori_this = this;
 			//console.log("[loop] #", this.state);
+			if (this.state == 1)
+			{
+				if (!this.set_IP_flag)
+				{
+					var IP = this.RtspPacket.IP;
+					console.log("[setup] IP", IP);
+					this.RtpPacket.init(IP, 3535);
+					this.set_IP_flag = true;
+				}
+				
+			}
 			if (this.state == 2)
 			{
 				if (this.frame_pointer < this.max_frame)
@@ -86,6 +98,7 @@ var StreamServer = function()
 			if (this.state == -1)
 			{
 				this.state = 0;
+				this.set_IP_flag = 0;
 				this.RtspPacket.state = 0;
 				this.init();
 			}

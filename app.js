@@ -17,7 +17,7 @@ var StreamPlayer = function(window_in)
       this.RtpPacket.init("127.0.0.1", 3535);
       this.RtpPacket.bind(3535, this.ev, this);
 
-      this.RtspPacket.client_mode();
+      this.RtspPacket.client_mode("140.113.253.35");
     },
 
     ev:function(target_frame, origin_caller)

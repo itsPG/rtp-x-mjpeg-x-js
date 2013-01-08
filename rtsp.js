@@ -10,6 +10,7 @@ module.exports = (function()
 		c:0,
 		state:0, // 1:steup 2:play 3:pause
 		session:0,
+		IP:0,
 
 		server_setup:function(data)
 		{
@@ -108,7 +109,9 @@ module.exports = (function()
 			{
 				ori_this.state = 0;
 				console.log("server connected");
-				//c.write("sever send test2");
+
+				console.log("[IP] " + c.remoteAddress);
+				ori_this.IP = c.remoteAddress;
 				c.on("end", function(){console.log("server disconnected")});
 
 				c.on("data", function(ori_data)
@@ -174,11 +177,13 @@ module.exports = (function()
 			//this.server_send("server send test");
 
 		},
-		client_mode:function()
+		client_mode:function(IP_in)
 		{
 			c_seq = 0;
 			ori_this = this;
-			this.client = net.connect({port:3536}, function()
+			if (IP_in != undefined) this.IP = IP_in;
+			else this.IP = "localhost";
+			this.client = net.connect({port:3536, host:this.IP}, function()
 			{
 
 				console.log("client connected");

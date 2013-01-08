@@ -111,7 +111,7 @@ module.exports = (function()
 				
 				if (tmp[1] != 0)
 				{
-					this.nexttimestamp_event(this.max_time, this.nexttimestamp_event_origin_caller);
+					if (this.nexttimestamp_event) this.nexttimestamp_event(this.max_time, this.nexttimestamp_event_origin_caller);
 					//console.log("nexttime", this.max_time);
 				}
 				this.max_time = tmp[1];
@@ -129,6 +129,7 @@ module.exports = (function()
 		},
 		send:function(buffer_in, timestamp_in)
 		{
+			//console.log(this.ip);
 			for (var i = 0; i < buffer_in.length; i += this.packet_size)
 			{
 				if (timestamp_in == undefined)
