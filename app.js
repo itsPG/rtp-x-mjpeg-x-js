@@ -3,6 +3,7 @@ var fs = require("fs");
 var StreamPlayer = function(window_in)
 {
 
+
   var r = 
   {
     
@@ -65,6 +66,7 @@ var StreamPlayer = function(window_in)
 
 
   return r;
+
 }
 
 
@@ -103,9 +105,7 @@ window.on('ready', function(){
   });
 
   console.log(StreamPlayer);
-  
-  //setTimeout(function(){ Rixia.setup() }, 1000);
-  //setTimeout(function(){ Rixia.play() }, 2000);
+
 });
 
 window.on('close', function(){
