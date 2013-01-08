@@ -1,17 +1,25 @@
 a = require("./mjpeg.js");
 //a.load("movie.mjpeg");
-var list = [];
-for (var i = 111; i <= 147; i++)
+
+if (0)
 {
-	list.push("./img/seto_no_hanayome_01_" + i + ".jpg");
+	var list = [];
+	for (var i = 111; i <= 147; i++)
+	{
+		list.push("./img/seto_no_hanayome_01_" + i + ".jpg");
+	}
+	for (var i = 111; i <= 147; i++)
+	{
+		list.push("./img/seto_no_hanayome_01_" + i + ".jpg");
+	}
+	for (var i = 111; i <= 147; i++)
+	{
+		list.push("./img/seto_no_hanayome_01_" + i + ".jpg");
+	}
+	a.create("PG.mjpeg", list);
 }
-for (var i = 111; i <= 147; i++)
+
+if (1)
 {
-	list.push("./img/seto_no_hanayome_01_" + i + ".jpg");
+	a.scan_dir_and_create("pass2.mjpeg", "./pass2/");
 }
-for (var i = 111; i <= 147; i++)
-{
-	list.push("./img/seto_no_hanayome_01_" + i + ".jpg");
-}
-a.create("PG.mjpeg", list);
-//a.load("PG.mjpeg", true);
