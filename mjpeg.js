@@ -39,12 +39,14 @@ module.exports = (function()
 		{
 
 		},
-		create:function(file_name, file_list)
+		create:function(file_name, file_list, dir_path)
 		{
 			var lens = [];
 			var files = [];
 
-			var fd = fs.openSync(file_name, "w");
+			var fd;
+			if (dir_path) fd = fs.openSync(dir_path + file_name, "w");
+			else fd = fs.openSync(file_name, "w");
 			var len_tmp = Buffer(4);
 			len_tmp.writeUInt32BE(file_list.length, 0);
 			fs.writeSync(fd, len_tmp, 0, len_tmp.length);
@@ -52,7 +54,9 @@ module.exports = (function()
 			for (var i = 0; i < file_list.length; i++)
 			{
 				console.log("#", i+1);
-				var content = fs.readFileSync(file_list[i]);
+				var content;
+				if (dir_path) content = fs.readFileSync(dir_path + file_list[i]);
+				else content = fs.readFileSync(file_list[i]);
 				var size = content.length;
 				var size2 = Buffer(4);
 				size2.writeUInt32BE(size, 0);
@@ -62,7 +66,15 @@ module.exports = (function()
 
 			fs.close(fd);
 
+		},
+		scan_dir_and_create:function(file_name, dir_name)
+		{
+			console.log(dir_name);
+			var list = fs.readdirSync(dir_name);
+			console.log(list);
+			this.create(file_name, list, dir_name + "/");
 		}
+
 	}
 	return r;
 })();
