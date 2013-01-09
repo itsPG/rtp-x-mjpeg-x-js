@@ -1,4 +1,4 @@
-s = require("./rtsp.js");
+s = require("../rtsp.js");
 s.client_mode("140.113.253.35");
 
 s.client_send( s.client_setup());

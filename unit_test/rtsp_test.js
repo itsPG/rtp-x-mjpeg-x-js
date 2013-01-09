@@ -1,6 +1,6 @@
 require("colors");
 require("sleep");
-s = require("./rtsp.js");
+s = require("../rtsp.js");
 console.log(a = s.client_setup().green);
 console.log(s.server_setup(a).cyan);
 console.log(a = s.client_play().green);
