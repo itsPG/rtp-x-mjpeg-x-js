@@ -162,6 +162,14 @@ module.exports = (function()
 
 						console.log(String("[play]").green);
 					}
+					else if (ori_this.state == 3 && data.search(/TEARDOWN/i) != -1)
+					{
+						ori_this.state = 0;
+						origin_caller.state = 0;
+						ori_this.server_play(data);
+
+						console.log(String("[teardown]").green);
+					}
 					else
 					{
 						console.log(("error state").red);
