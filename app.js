@@ -4,62 +4,66 @@ var StreamPlayer = function(window_in)
 {
 
 
-  var r = 
-  {
-    
-    RtpPacket:0,
-    RtspPacket:0,
-    buffer_lv:0,
-    init:function()
-    {
-      this.RtpPacket = require("./rtp.js");
-      this.RtspPacket = require("./rtsp.js");
+	var r = 
+	{
 
-      this.RtpPacket.init("127.0.0.1", 3535);
-      this.RtpPacket.bind(3535, this.ev, this);
+		RtpPacket:0,
+		RtspPacket:0,
+		buffer_lv:0,
+		init:function()
+		{
+			this.RtpPacket = require("./rtp.js");
+			this.RtspPacket = require("./rtsp.js");
 
-      this.RtspPacket.client_mode("140.113.253.35");
-    },
+			this.RtpPacket.init("127.0.0.1", 3535);
+			this.RtpPacket.bind(3535, this.ev, this);
+			
+		},
 
-    ev:function(target_frame, origin_caller)
-    {
-      //console.log("event is called", target_frame);
-      var r = origin_caller.RtpPacket.recv_target_timestamp(target_frame);
-      //console.log(r.length);
-      if (target_frame % 2 == 1)
-      {
-        //console.log(W);
-        this.buffer_lv = 5;
-        console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
-        //fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
-        fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
-        //this.window_in.$("body").html("asdf");
-        //this.RtpPacket.sleep(100);
-        W.$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg");
-      }
-    },
+		ev:function(target_frame, origin_caller)
+		{
+			//console.log("event is called", target_frame);
+			var r = origin_caller.RtpPacket.recv_target_timestamp(target_frame);
+			//console.log(r.length);
+			if (target_frame % 2 == 1)
+			{
+				//console.log(W);
+				this.buffer_lv = 5;
+				console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
+				//fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+				fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
+				//this.window_in.$("body").html("asdf");
+				//this.RtpPacket.sleep(100);
+				if (target_frame >= this.buffer_lv*2)
+				{
+					W.$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg");
+				}
+			}
+		},
 
-    setup:function()
-    {
-      
-      this.RtspPacket.client_send( this.RtspPacket.client_setup());
-    },
+		setup:function()
+		{
+			if (W.$("#IP_select").val() == "") W.$("#IP_select").val("140.113.253.35");
+			this.RtspPacket.client_mode(W.$("#IP_select").val());
+			//this.RtspPacket.client_mode("140.113.253.35");
+			this.RtspPacket.client_send( this.RtspPacket.client_setup());
+		},
 
-    play:function()
-    {
-      this.RtspPacket.client_send( this.RtspPacket.client_play());
-    },
+		play:function()
+		{
+			this.RtspPacket.client_send( this.RtspPacket.client_play());
+		},
 
-    pause:function()
-    {
-      this.RtspPacket.client_send( this.RtspPacket.client_pause());
-    },
+		pause:function()
+		{
+			this.RtspPacket.client_send( this.RtspPacket.client_pause());
+		},
 
-    teardown:function()
-    {
-      this.RtspPacket.client_send( this.RtspPacket.client_teardown());
-      W.close();
-    },
+		teardown:function()
+		{
+			this.RtspPacket.client_send( this.RtspPacket.client_teardown());
+			W.close();
+		},
 
 
   }

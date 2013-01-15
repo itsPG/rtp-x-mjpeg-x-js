@@ -14,7 +14,7 @@ module.exports = (function()
 		ip:0,
 		port:0,
 		buf:0,
-		packet_size:20480,
+		packet_size:40960,
 		receiver_event:0,
 		nexttimestamp_event:0,
 		nexttimestamp_event_origin_caller:0,
@@ -183,6 +183,7 @@ module.exports = (function()
 				return false;
 			}
 			r = r.slice(0, pointer);
+			//console.log("size".cyan, r.length)
 			//console.log("recv_target_timestamp", r.toString("utf8", 0, 30), pointer);
 			this.buf = new_ary;
 			return r;
