@@ -45,10 +45,10 @@ var StreamServer = function()
 		{
 			//console.log("send frame_no size", this.PG_mjpeg.file_size_raw[frame_no]);
 			this.RtpPacket.send(this.PG_mjpeg.file_size_raw[frame_no], frame_no*2);
-			this.sleep(20);
+			this.sleep(10);
 			//console.log("start to send frame");
 			this.RtpPacket.send(this.PG_mjpeg.file_content[frame_no], frame_no*2 + 1);
-			this.sleep(40);
+			this.sleep(30);
 
 		},
 
