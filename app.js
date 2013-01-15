@@ -38,8 +38,8 @@ var StreamPlayer = function(window_in)
 				//this.RtpPacket.sleep(100);
 				if (target_frame >= this.buffer_lv*2)
 				{
-					var fn = "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg";
-					if (fs.statSync(fn).isFile())
+					var fn = "./content/tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg";
+					if (fs.existsSync(fn))
 					{
 						W.$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg");
 					}
@@ -53,13 +53,15 @@ var StreamPlayer = function(window_in)
 		},
 		delete_tmp_files:function()
 		{
-			var list = fs.readdirSync(dir_name);
+			//var list = fs.readdirSync("./content/tmp");
+			console.log(list);
 			for (var key in list)
 			{
-				fs.unlinkSync(list[key]);
+				fs.unlinkSync("./content/tmp/" + list[key]);
+				//console.log("./content/tmp/" + list[key]);
 			}
 			console.log("[TEMP FILES DELETED]".cyan);
-		}
+		},
 		setup:function()
 		{
 			if (W.$("#IP_select").val() == "") W.$("#IP_select").val("140.113.253.35");
