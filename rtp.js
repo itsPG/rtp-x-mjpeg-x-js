@@ -99,7 +99,7 @@ module.exports = (function()
 		},
 		receiver:function(buffer_in)
 		{
-			
+			//console.log(this.max_time);
 			var tmp = this.extract_rtp_packet(buffer_in);
 			this.buf.push(tmp);
 			if (tmp[0] > this.max_seq) this.max_seq = tmp[0];
@@ -111,6 +111,7 @@ module.exports = (function()
 					if (this.nexttimestamp_event) this.nexttimestamp_event(this.max_time, this.nexttimestamp_event_origin_caller);
 				}
 				this.max_time = tmp[1];
+				//console.log("set", tmp[1]);
 				
 			}
 			if (this.max_seq % 100 == 0) console.log("recv #", this.max_seq);

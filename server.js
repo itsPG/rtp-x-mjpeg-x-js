@@ -77,6 +77,11 @@ var StreamServer = function()
 					this.RtpPacket.init(IP, 3535);
 					this.set_IP_flag = true;
 				}
+				this.RtpPacket.max_time = -99999;
+				this.frame_pointer = 0;
+				console.log("reset".cyan);
+				this.state = 1.5;
+
 				
 			}
 

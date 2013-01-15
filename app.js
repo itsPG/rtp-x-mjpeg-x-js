@@ -10,6 +10,7 @@ var StreamPlayer = function(window_in)
 		RtpPacket:0,
 		RtspPacket:0,
 		buffer_lv:0,
+		first_time_play:0,
 		init:function()
 		{
 			this.RtpPacket = require("./rtp.js");
@@ -28,7 +29,7 @@ var StreamPlayer = function(window_in)
 			if (target_frame % 2 == 1)
 			{
 				//console.log(W);
-				this.buffer_lv = 5;
+				this.buffer_lv = 3;
 				console.log(String("[Save Frame #" + (target_frame-1)/2 + "] ").green);
 				//fs.writeFileSync("./tmp/p_" + (target_frame-1)/2 + ".jpg", r);
 				fs.writeFileSync("./content/tmp/p_" + (target_frame-1)/2 + ".jpg", r);
@@ -38,6 +39,10 @@ var StreamPlayer = function(window_in)
 				{
 					W.$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg");
 				}
+				else
+				{
+
+				}
 			}
 		},
 
@@ -45,12 +50,20 @@ var StreamPlayer = function(window_in)
 		{
 			if (W.$("#IP_select").val() == "") W.$("#IP_select").val("140.113.253.35");
 			this.RtspPacket.client_mode(W.$("#IP_select").val());
+			
+			this.first_time_play = true;
 			//this.RtspPacket.client_mode("140.113.253.35");
 			this.RtspPacket.client_send( this.RtspPacket.client_setup());
 		},
 
 		play:function()
 		{
+			if (this.first_time_play)
+			{
+				this.first_time_play = false;
+				this.RtpPacket.max_time = -99999;
+				this.RtpPacket.buf = [];
+			}
 			this.RtspPacket.client_send( this.RtspPacket.client_play());
 		},
 
