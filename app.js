@@ -1,5 +1,6 @@
 require("colors");
 var fs = require("fs");
+var exec = require('child_process').exec;
 var StreamPlayer = function(window_in)
 {
 
@@ -37,7 +38,11 @@ var StreamPlayer = function(window_in)
 				//this.RtpPacket.sleep(100);
 				if (target_frame >= this.buffer_lv*2)
 				{
-					W.$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg");
+					var fn = "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg";
+					if (fs.statSync(fn).isFile())
+					{
+						W.$("#RtpPlayer").attr("src", "./tmp/p_" + (target_frame - 1 - this.buffer_lv*2)/2 + ".jpg");
+					}
 				}
 				else
 				{
@@ -46,7 +51,15 @@ var StreamPlayer = function(window_in)
 
 			}
 		},
-
+		delete_tmp_files:function()
+		{
+			var list = fs.readdirSync(dir_name);
+			for (var key in list)
+			{
+				fs.unlinkSync(list[key]);
+			}
+			console.log("[TEMP FILES DELETED]".cyan);
+		}
 		setup:function()
 		{
 			if (W.$("#IP_select").val() == "") W.$("#IP_select").val("140.113.253.35");
@@ -55,6 +68,8 @@ var StreamPlayer = function(window_in)
 			this.first_time_play = true;
 			//this.RtspPacket.client_mode("140.113.253.35");
 			this.RtspPacket.client_send( this.RtspPacket.client_setup());
+			//exec("del content\\tmp\\*");
+			this.delete_tmp_files();
 		},
 
 		play:function()
