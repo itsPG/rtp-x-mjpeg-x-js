@@ -1,1 +1,1 @@
-node server.js
+.\bin\node server.js
