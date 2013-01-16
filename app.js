@@ -53,8 +53,8 @@ var StreamPlayer = function(window_in)
 		},
 		delete_tmp_files:function()
 		{
-			//var list = fs.readdirSync("./content/tmp");
-			console.log(list);
+			var list = fs.readdirSync("./content/tmp");
+			//console.log(list);
 			for (var key in list)
 			{
 				fs.unlinkSync("./content/tmp/" + list[key]);
